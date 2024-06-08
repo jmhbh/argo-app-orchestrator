@@ -1,0 +1,31 @@
+apiVersion: argoproj.io/v1alpha1
+kind: ApplicationSet
+metadata:
+  name: supermario-app-set
+  namespace: argocd
+spec:
+  generators:
+    - list:
+        elements:
+        {{range .UserNames -}}
+        - user: {{.}}
+        {{end}}
+  template:
+    metadata:
+      name: '{{.AppName}}'
+    spec:
+      project: default
+      source:
+        repoURL: https://github.com/jmhbh/git-ops.git
+        targetRevision: HEAD
+        path: example
+      destination:
+        server: https://kubernetes.default.svc
+        namespace: '{{.AppName}}'
+      syncPolicy:
+        automated:
+          prune: false
+          selfHeal: true
+        syncOptions:
+          - ApplyOutOfSyncOnly=true
+          - CreateNamespace=true

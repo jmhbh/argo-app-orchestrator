@@ -1,0 +1,43 @@
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: app-orchestrator
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: app-orchestrator
+  name: app-orchestrator
+  namespace: app-orchestrator
+spec:
+  selector:
+    matchLabels:
+      app: app-orchestrator
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: app-orchestrator
+    spec:
+      containers:
+        - image: docker.io/jmhbh/public:argo-app-orchestrator
+          imagePullPolicy: Always
+          name: app-orchestrator
+          ports:
+            - containerPort: 9000
+              name: http
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: app-orchestrator
+  namespace: app-orchestrator
+  labels:
+    app: app-orchestrator
+spec:
+  ports:
+    - port: 9000
+      protocol: TCP
+  selector:
+    app: app-orchestrator
