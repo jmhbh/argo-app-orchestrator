@@ -1,5 +1,7 @@
 # argo-app-orchestrator
 
+This project is a demo of how to programatically use the ArgoCD ApplicationSet to manage deployments for multiple users. As well as integrate the argo managed services into a tailnet network using the tailnet k8s operator.
+
 ## Setup
 1. Install `microk8s` following the instructions [here](https://ubuntu.com/tutorials/install-a-local-kubernetes-with-microk8s#2-deploying-microk8s) or
 if you're running on an M1 Mac, install with `brew install ubuntu/microk8s/microk8s`.
